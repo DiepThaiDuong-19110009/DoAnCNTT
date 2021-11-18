@@ -1,220 +1,131 @@
-create database EShop;
-use EShop;
-
-
-CREATE TABLE Users (
-  UserId int NOT NULL AUTO_INCREMENT,
-  Phone varchar(50) NOT NULL,
-  Password varchar(50) NOT NULL,
-  Role int default 1,
-  PRIMARY KEY (UserId)
+create table Category(
+	categoryId Serial primary key,
+	name varchar(255) not null
 );
 
-CREATE TABLE Customers (
-  CustomerId int NOT NULL AUTO_INCREMENT,
-  UserId int NOT NULL,
-  FirstName nvarchar(50),
-  LastName nvarchar(50),
-  Email varchar(50) NOT NULL,
-  Gender nvarchar(5),
-  Address nvarchar(250),
-  PRIMARY KEY (CustomerId),
-  foreign key (UserId) references Users(UserId)
+create table Product(
+	productId Serial,
+  	categoryId int,
+  	name varchar(450) not null,
+  	price bigint not null,
+ 	image varchar(450) not null,
+  	PRIMARY KEY (productId),
+  	FOREIGN KEY(categoryId) references Category(CategoryId)
 );
 
-CREATE TABLE Category (
-  CategoryId int NOT NULL AUTO_INCREMENT,
-  Name nvarchar(50) NOT NULL,
-  Description nvarchar(500),
-  PRIMARY KEY (CategoryId)
+create table Users(
+	id Serial,
+	username varchar(50) unique not null,
+	password varchar(36) not null,
+	email varchar(50),
+	role int,
+	primary key(id)
 );
 
-CREATE TABLE Products (
-  ProductId int NOT NULL AUTO_INCREMENT,
-  CategoryId int,
-  Name nvarchar(450) NOT NULL,
-  Description nvarchar(500),
-  Price double NOT NULL,
-  Unit nvarchar(50),
-  Image varchar(450) NOT NULL,
-  PRIMARY KEY (ProductId),
-  FOREIGN KEY(CategoryId) references Category(CategoryId)
-); 
-
-CREATE TABLE Cart (
- CartId int NOT NULL AUTO_INCREMENT,
- ProductId int,
- Quantity int,
-  PRIMARY KEY (CartId),
-  foreign key (ProductId) references Products(ProductId)
+create table Cart(
+	cartId Serial primary key,
+	userId int references Users(id) not null ,
+	buyDate date
+	info varchar(255)
 );
 
-CREATE TABLE orders (
-  OrderId int NOT NULL AUTO_INCREMENT,
-  CustomerId int,
-  CartID int,
-  Date varchar(15) NOT NULL,
-  PRIMARY KEY (OrderID),
-  foreign key (CustomerId) references Customers(CustomerId),
-  foreign key (CartId) references Cart(CartId)
+create table CartItem(
+	id Serial primary key,
+	quantity int,
+	productId int references Product(productid) not null,
+	cartId int references Cart(cartid) not null
 );
 
 
--- INSERT DATA
-INSERT INTO `Users` (Phone,Password) VALUES ('0909565232','123456');
-INSERT INTO `Users` (Phone,Password) VALUES ('0909222333','654321');
+INSERT INTO Category (name) VALUES ('Cá sông'),('Hải sản'),('Rau củ'),('Thịt'),('Trái cây');
+
+select * from category
+
+delete from product
+
+INSERT INTO Product(categoryid,name,price,image) VALUES 
+(1,'Cá bông lau',250000,'cabonglau.jpg'),
+(2,'Bạch tuộc',180000,'bachtuoc.jpg'),
+(3,'Bắp cải mini',400000,'bapcaimini.jpg'),
+(4,'Ba rọi',125000,'baroiheo.jpg'),
+(5,'Bơ',75000,'bo.jpg'),
+(1,'Cá chạch',100000,'cachach.jpg'),
+(2,'Cá mú',350000,'camu.jpg'),
+(3,'Bông cải xanh',50000,'bongcaixanh.jpg'),
+(4,'Cánh gà',65000,'canhga.jpg'),
+(5,'Bưởi',70000,'buoi.jpg'),
+
+(1,'Cá chép',45000,'cachep.jpg'),
+(1,'Cá chim trắng',60000,'cachimtrang.jpg'),
+(1,'Cá lóc',120000,'caloc.jpg'),
+(1,'Cá mè vinh',50000,'camevinh.jpg'),
+(1,'Cá rô phi',35000,'carophi.jpg'),
+(1,'Cá thác lác',120000,'cathaclac.jpg'),
+(1,'Cá trê','45000','catre.jpg'),
+(1,'Tôm càng xanh','250000','tomcangxanh.jpg'),
+
+(2,'Cá nục',65000,'canuc.jpg'),
+(2,'Cá tầm',300000,'catam.jpg'),
+(2,'Cá thu',80000,'cathu.jpg'),
+(2,'Mực nang',160000,'mucnang.jpg'),
+(2,'Ngao trắng',70000,'ngaotrang.jpg'),
+(2,'Sò lông',65000,'solong.jpg'),
+(2,'Tôm hùm bông',2400000,'tomhumbong.jpg'),
+(2,'Tôm hùm xanh',700000,'tomhumxanh.jpg'),
+
+(3,'Cà chua',15000,'cachua.jpg'),
+(3,'Cải thảo',25000,'caithao.jpg'),
+(3,'Cải thìa',20000,'caithia.jpg'),
+(3,'Cải xanh',15000,'caixanh.jpg'),
+(3,'Cà rốt',15000,'carot.jpg'),
+(3,'Củ cải trắng',10000,'cucaitrang.jpg'),
+(3,'Đậu cove',35000,'daucove.jpg'),
+(3,'Hành tím' ,45000,'hanhtim.jpg'),
+(3,'Mồng tơi',10000,'mongtoi.jpg'),
+(3,'Rau lang',12000,'raulang.jpg'),
+(3,'Rau má',15000,'rauma.jpg'),
+(3,'Rau muống',12000,'raumuong.jpg'),
+
+(4,'Đùi gà',35000,'duiga.jpg'),
+(4,'Gà nguyên con',90000,'ganguyencon.jpg'),
+(4,'Nạc vai bò',150000,'nacvaibo.jpg'),
+(4,'Sườn heo',120000,'suonheo.jpg'),
+(4,'Thịt bò lưng',200000,'thitbolung.jpg'),
+(4,'Thịt bò vụn',100000,'thitbovun.jpg'),
+(4,'Ức gà',45000,'ucga.jpg'),
+(4,'Vịt nguyên con',120000,'vitnguyencon.jpg'),
+
+(5,'Cam',35000,'cam.jpg'),
+(5,'Cherry',450000,'cherry.jpg'),
+(5,'Chôm chôm',15000,'chomchom.jpg'),
+(5,'Chuối',12000,'chuoi.jpg'),
+(5,'Dưa hấu',15000,'duahau.jpg'),
+(5,'Đu đủ',20000,'dudu.jpg'),
+(5,'Lựu đỏ',60000,'luudo.jpg'),
+(5,'Mãng cầu',50000,'mangcau.jpg'),
+(5,'Măng cụt',75000,'mangcut.jpg'),
+(5,'Nho',60000,'nho.jpg'),
+(5,'Ổi',15000,'oi.jpg'),
+(5,'Sầu riêng',80000,'saurieng.jpg'),
+(5,'Táo',45000,'tao.jpg'),
+(5,'Thanh long',10000,'thanhlong.jpg'),
+(5,'Thơm',12000,'thom.jpg'),
+(5,'Vải thiều',80000,'vaithieu.jpg'),
+(5,'Vú sữa',45000,'vusua.jpg'),
+(5,'Xoài',16000,'xoai.jpg');
+
+select * from product
 
 
-INSERT INTO `Category` (Name,Description) VALUES (N'Cá sông',N'Cá sông');
-INSERT INTO `Category` (Name,Description) VALUES (N'Hải sản',N'Hải sản');
-INSERT INTO `Category` (Name,Description) VALUES (N'Rau củ',N'Rau củ');
-INSERT INTO `Category` (Name,Description) VALUES (N'Thịt',N'Thịt');
-INSERT INTO `Category` (Name,Description) VALUES (N'Trái cây',N'Trái cây');
 
 
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá bông lau',N'Cá bông lau có vẻ ngoài khá giống với cá basa và cá hú nên rất dễ bị nhầm lẫn. Cá bông lau có kích thước tối đa khá lớn với chiều dài khoảng 120cm và nặng khoảng 14kg. Thịt cá bông lau chắc và ngọt, ít xương nên khi chế biến thành các món canh hay món lẩu đều rất ngon',350000,'Kg','cabonglau.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá chạch',N'Cá chạch sinh sống ở cả hai môi trường nước ngọt và nước lợ. Tuy nhiên, chúng tập trung với mật độ dày đặc ở hai tỉnh đầu nguồn An Giang và Đồng Tháp. Vào mùa nước nổi, cá chạch sống trên đồng ruộng, khi nước cạn thì rút xuống các bàu, ao, vũng hoặc theo kinh rạch ra sông',190000,'Kg','cachach.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá chép',N'Cá chép không chỉ gắn liền với câu chuyện đưa ông Táo về trời mà còn là nguồn thực phẩm dinh dưỡng tốt cho sức khỏe được dân gian truyền miệng',115000,'Kg','cachep.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá chim trắng',N'Cá chim trắng là loài cá biển có màu bạc hoặc trắng với một ít vảy, đặc trưng bởi cơ thể bằng phẳng, thân hơi tròn dẹp, vây đuôi chẻ và vây ngực dài. Loại cá này được đánh giá cao trong ẩm thực vì hương vị đặc biệt của nó',335000,'Kg','cachimtrang.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá điêu hồng',N'Cá diêu hồng hay còn gọi là cá điêu hồng là một loài cá sống trong môi trường nước ngọt thuộc họ Cá rô phi. Bên ngoài phủ vảy màu đỏ hồng hoặc vàng đậm, có thịt dày và ngọt',80000,'Kg','cadieuhong.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá lóc',N'Cá lóc hay còn gọi là cá quả là thực phẩm không còn xa lạ với bà nội trợ. Cá lóc có thể chế biến thàh nhiều món ăn ngon như nấu canh chua, kho tộ, hấp bầu, ... ',155000,'Kg','caloc.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá mè vinh',N'Cá mè Vinh là loại cá có thịt ngon ngọt, được xem là đặc sản riêng biệt vùng vùng sông nước miền Tây. Tuy chúng có nhiều xương, nhưng cá mè vẫn được xem là một trong những loại thực phẩm phổ biến trên bàn ăn của mỗi gia đình ',45000,'Kg','camevinh.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá rô phi',N'Cá rô phi là một thực phẩm dinh dưỡng và có giá thành khá rẻ. Do đó, loại cá này được nhiều người ưa chuộng',80000,'Kg','carophi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá thác lác',N'Cá thác lác được các mẹ ưu ái lựa chọn mỗi lần vào bếp bởi độ dai giòn, có mùi thơm đặc trưng từ lâu đã được ưa chuộng trong các bữa cơm của gia đình Việt',200000,'Kg','cathaclac.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Cá trê',N'Cá trê thuộc giống cá nước ngọt và sinh sống trong các ao hồ hay ruộng với nhiều bùn lầy. Loài cá này có ở nhiều nơi trên thế giới như Ấn Độ, Syria, châu Phi… riêng tại Đông Nam Á thì Việt Nam chính là nơi có trữ lượng cá trê lớn nhất',120000,'Kg','catre.jpg');
 
 
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('1',N'Tôm càng xanh',N'Tôm càng xanh được xem là mỹ vị trong các món ăn vì vị ngon và giá trị dinh dưỡng cao. Sức hấp dẫn của tôm càng xanh khiến nó có mặt khắp nhà hàng sang trọng cũng như đem đi xuất khẩu khắp các nước trên thế giới với giá trị thương phẩm rất cao',400000,'Kg','tomcangxanh.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Bạch tuộc tươi',N'Trong tất cả các loài động vật thân mềm thì bạch tuộc là loại hải sản thông minh nhất. Không chỉ có khả năng bắt mồi linh hoạt, di chuyển nhanh chóng mà loài động vật biển này còn có rất giỏi ẩn nấp và lẩn trốn kẻ thù. Chính vì vậy, việc đánh bắt loại hải sản này cũng không dễ dàng',500000,'Kg','bachtuoc.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá đối',N'Cá đối chỉ có kích thước bằng hai ngón tay nhưng cho thịt vừa béo vừa ngọt nên rất được ưa thích. Từng thớ thịt cá trắng tinh, vị ngọt cùng hương thơm thoảng thoang khi nướng chín đem lại một món ăn thật tròn vị cho bạn',160000,'Kg','cadoi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá hồi phi lê',N'Cá hồi nhập trực tiếp từ NAUY với chất lượng được kiểm soát nghiêm ngặt. Sở hữu thịt thơm ngon và giàu dinh dưỡng, thích hợp cho mọi đối tượng sử dụng. Thịt cá hồi vừa ngon, vừa không sợ béo',555000,'Kg','cahoiphile.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá mú',N'Cá mú là một loại cá vô cùng phổ biến, khá quen thuộc đối với những người dân miền biển. Tuy phổ biến là vậy, nhưng không phải ai cũng biết hết những điều thú vị về loài cá này',4200000,'Kg','camu.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá ngân',N'Từ ngoại hình bắt mắt cho đến tên gọi đặc biệt, loại cá ngân luôn thu hút được sự chú ý đến từ người tiêu dùng. Nhưng điều thu hút khách hàng nhiều nhất đó chính là hương vị thơm ngon, độc đáo của thịt cá ngân khi được chế biến thành những món ăn với nhiều phong cách khác nhau',100000,'Kg','cangan.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá ngừ',N'Cá ngừ được khai thác bằng các cách như lưới vây, rê, đăng và loại cá này thường được khai thác ở các vùng biển miền Trung là chủ yếu',280000,'Kg','cangu.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá nục',N'Cá nục được đánh giá là thực phẩm rất tốt cho sức khỏe. Một con cá nục cung cấp cho cơ thể khoảng 111 kcal. Ngoài ra, cá nục còn chứa nhiều dưỡng chất có lợi cho sức khỏe và ngăn ngừa một số bệnh',60000,'Kg','canuc.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá sòng',N'Cá sòng là loài cá chứa rất nhiều chất dinh dưỡng, thịt ngọt béo, ít mùi tanh. Đặc biệt là dễ chế biến nên rất được ưa chuộng trong các bữa cơm gia đình hiện nay',100000,'Kg','casong.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá tầm',N'Một món ăn hoàn hảo ngoài sở hữu hương vị thơm ngon còn chứa những giá trị dinh dưỡng. Để tạo nên được món ăn như thế thì nguyên liệu là vấn đề vô cùng quan trọng. Cá tầm chính là thực phẩm bạn không nên bỏ qua vì chúng sở hữu hàm lượng dinh dưỡng cao và rất có lợi cho sức khỏe con người',200000,'Kg','catam.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Cá thu',N'Cá thu là tên chung áp dụng cho một số loài cá khác nhau chủ yếu là thuộc họ Cá thu ngừ. Chúng sinh sống cả ở các vùng biển nhiệt đới và biển ôn đới. Phần lớn các loại cá thu sống xa bờ ở môi trường đại dương. Trong bộ cá thu được tìm thấy có khoảng hơn 30 loài khác nhau được phân bổ ở khắp các vùng biển ở trên thế giới',150000,'Kg','cathu.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Mực nang',N'Thịt mực nang dày, trắng ngần như cơm dừa, vị giòn, ngọt, thơm, giá cả lại phải chăng và có thể chế biến thành nhiều món ngon nên được nhiều người yêu thích',450000,'Kg','mucnang.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Mực ống',N'Mực ống là loại ngon nhất trong họ hàng nhà mực. Mực là thực phẩm chứa nhiều dưỡng chất, có thể chế biến thành những món ăn ngon miệng. Trong ăn uống, ngoài việc chọn món ăn ngon, dễ chế biến thì bạn cũng nên chú ý đến những lợi ích sức khỏe mà món ăn sẽ mang lại',300000,'Kg','mucong.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Ngao trắng',N'Ngao trắng hay nhiều nơi còn gọi là con nghêu, là một loại hải sản biển rất đỗi quen thuộc trong bữa cơm gia đình của người Việt. Ngao có thể chế biến thành nhiều món ăn, từ những món canh ngọt mát cho ngày hè nóng nực, cho đến những món “nhậu” ăn chơi thú vị như ngao hấp sả dứa, ngao xào me cay',30000,'Kg','ngaotrang.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Sò huyết',N'Sò huyết là một loại hải sản có vị ngọt, mặn, tính ấm, có tác dụng chính là bổ huyết, kiện vị, ôn trung, hỗ trợ chữa chứng huyết hư, thiếu máu, kiết lỵ ra máu, tiêu hóa kém, viêm loét dạ dày tá tràng',110000,'Kg','sohuyet.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Sò lông',N'Sò lông là loại sò có 2 mảnh vỏ tập trung chủ yếu tại các vùng biển nhiệt đới và đây cũng là loại sò biển rất được ưa chuộng tại nước ta. Vỏ sò lông bên ngoài có các đường gờ được cấu tạo từ các lớp vẩy xếp chồng lên nhau, da của vỏ màu nâu và phát triển thành lông và đây cũng là lý do vì sao chúng được gọi là sò lông',150000,'Kg','solong.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Tôm Alaska',N'Tôm hùm Alaska là một trong những loại tôm nổi tiếng nhất trên thế giới và cũng rất được ưa chuộng ở Việt Nam. Những nhà hàng lớn người ta thường sử dụng tôm hùm Alaska làm những món chính trong thực đơn hải sản',1390000,'Kg','tomAlaska.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Tôm Canada',N'Tôm hùm Canada sống tại các bãi đã ngầm ở vùng biển sâu, nước trong xanh và nhiệt độ lạnh giá. Do đó, thịt của chúng vô cùng ngọt ngào, đượm vị, mỗi miếng thịt tôm như chứa cả tinh hoa của biển cả, như được ướp đặm vị mặm mà của thiên nhiên. Đây là loại thịt trắng, hoàn toàn không chứa cholesteron và là loại thịt đảm bảo an toàn vệ sinh thực phẩm tuyệt đối cho người sử dụng',1050000,'Kg','tomCanada.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Tôm hùm bông',N'Tôm hùm bông nổi tiếng về độ thơm ngon, ngọt lành và chứa hàm lượng chất dinh dưỡng cao. Các chuyên gia dinh dưỡng cho biết, trong 100g thịt tôm hùm bông có đến 88 kcal, 19g protein, 486 mg Natri, 230mg Kali và rất nhiều loại Vitamin A, C, D, B6, B12, canxi và sắt',1550000,'Kg','tomhumbong.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('2',N'Tôm hùm xanh',N'Tôm hùm xanh có thịt săn chắc, vỏ tôm mỏng, thịt đầy, ăn dai và ngọt, nhiều gạch. Tôm hùm có xuất xứ từ Nha Trang, Phan Thiết - Bình Thuận',1160000,'Kg','tomhumxanh.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Bắp',N'Bắp là một loại thực phẩm được biết đến với công dụng tốt cho sức khoẻ. Bên cạnh đó, với loại thực phẩm này bạn có thể dễ dàng chế biến thành rất nhiều món ngon đa dạng và phong phú',10000,'Kg','bap.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Bắp cải mini',N'Bắp cải mini hay còn gọi là bắp cải Brussel sprouts, có nguồn gốc từ nước Bỉ và hiện được trồng nhiều ở các nước châu Âu, Bắc Mỹ. Theo một số nhà vườn lâu năm, trước đây đã được trồng ở Đà Lạt từ thời Pháp thuộc, là loại sản phẩm cao cấp phục vụ cho các quan chức thời đó nhưng về sau này thì không thấy xuất hiện nữa, gần đây mới thấy xuất hiện hạt giống bắp cải mini trở lại qua đường xách tay từ châu Âu',600000,'Kg','bapcaimini.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Bông cải xanh',N'Bông cải xanh chứa nhiều glucoraphanin, đây là một hợp chất được chuyển hóa thành sulforaphane ở hệ tiêu hóa và có tác dụng chống oxy hóa. Các nghiên cứu trong ống nghiệm và trên động vật cho thấy sulforaphane làm giảm lượng đường trong máu, giảm cholesterol, giảm stress oxy hóa và các bệnh mãn tính. Tuy nhiên các nghiên cứu này cần có thêm thời gian để chứng minh có lợi trên cơ thể người',55000,'Kg','bongcaixanh.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Cà chua',N'Cà chua có nguồn gốc từ Nam Mỹ và được tiến hóa từ loại cây nhỏ có quả màu xanh phổ biến lúc bấy giờ ở vùng cao nguyên Peru. Trong đó, loại cây có tên Solanum lycopersicum đã được vận chuyển đến Mexico và được người dân Trung Mỹ trồng trọt và tiêu thụ. Ngoài ra, loại cà chua được thuần hóa đầu tiên có thể là từ trái cây có màu vàng (giống như cà chua anh đào) được người Aztec miền Trung México trồng trọt và phát triển',15000,'Kg','cachua.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Cải thảo',N'Cải thảo có nguồn gốc từ Trung Quốc, còn gọi là cải bao, cải cuốn, cải bắp tây, là một loài thuộc họ Cải rất được yêu thích và được chế biến thành vô số những món xào, món canh và nhúng trong các món lẩu vô cùng thơm ngon',18000,'Kg','caithao.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Cải thìa',N'Cải thìa còn được gọi là cải chíp, cải muỗng (ở Trung Quốc, CT được gọi là tiểu bạch thái). Cây có tên khoa học là Brassica rapa chinensis, thuộc họ Cải. Cây có thân mập, hơi lùn và bẹ lá to, có màu xanh hoặc trắng xanh',23000,'Kg','caithia.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Cải xanh',N'Rau cải xanh (cải bẹ xanh) hay còn gọi với một số tên khác như cải xanh, cải canh, cải cay, giới tử, là một loài thực vật thuộc họ Cải (Brassicaceae). Thân của rau cải xanh to, nhỏ khác nhau tùy theo giống trồng, lá có màu xanh đậm hoặc xanh nõn lá chuối. Khi ăn sẽ thấy rau cải xanh có vị cay, đăng đắng có tác dụng giải cảm hàn, thông đàm, lợi khí',15000,'Kg','caixanh.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Cần tây',N'Cần tây loại rau có mùi vị khá đặc biệt và có nhiều lợi ích sức khỏe khi kết hợp với thịt bò. Không những thế, cần tây còn được các chuyên gia đánh giá là thực phẩm đem lại sự bổ dưỡng, đặc biệt khi sử dụng loại rau này ở dạng tươi sống ',40000,'Kg','cantay.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Cà rốt',N'Với hàm lượng chất chống oxy hóa, beta carotene, các vitamin và khoáng chất dồi dào, cà rốt được xem là một trong những thực phẩm cực tốt cho sức khỏe chúng ta. Cà rốt làm tốt vai trò cải thiện thị lực, ngăn chặn tế bào ung thư, tốt cho bệnh tiểu đường, làm đẹp da, giữ dáng thậm chí còn được sử dụng để làm vắc xin chống lại virus HIV',25000,'Kg','carot.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Củ cải đường',N'Củ cải đường có thể ăn sống được khi còn non, thường thái mỏng và thêm vào trong các món salad xanh. Đối với củ cải đường khi chín thì sẽ được sử dụng trong các món luộc, áp chảo và rang',60000,'Kg','cucaiduong.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Củ cải trắng',N'Củ cải trắng còn được biết đến như "nhân sâm mùa đông" giúp ngăn ngừa ung thư, tăng cường hệ thống miễn dịch, giảm viêm, hỗ trợ giảm cân… Thế nhưng nếu ăn củ cải trắng cùng một số thực phẩm "đại kỵ" có thể biến loại củ này thành "thuốc độc"',20000,'Kg','cucaitrang.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Đậu cove',N'Đậu que hay đậu cô ve là một loại rau quả quen thuộc và được sử dụng khá phổ biến đối với nhiều nền ẩm thực. Chúng có nhiều giống khác nhau với màu sắc, hình dáng cũng khác nhau và được trồng ở nhiều nơi',30000,'Kg','daucove.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Đậu Hà Lan',N'Đậu Hà Lan xuất hiện từ rất lâu nhưng người ta vẫn chưa tìm hiểu nguồn gốc thực sự của loại đậu này như thế nào. Tuy nhiên, nhiều nhà khoa học dựa vào sự phân bố gen của chúng đưa ra kết luận rằng: đậu Hà Lan có nguồn gốc từ vùng Cận Đông và các khu vực Địa Trung Hải',100000,'Kg','dauHaLan.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Giá',N'Giá đỗ xanh có vị ngọt nhẹ và giòn đặc trưng, không chỉ ngon mà còn là thực phẩm rất giàu chất dinh dưỡng mà bạn không ngờ đến, nhất là các loại vitamin và khoáng chất thiết yếu khác',10000,'Kg','gia.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Gừng',N'Gừng là loại thân cỏ, thân phát triển theo hình ống, gồm nhiều bẹ lá ôm sát vào nhau, cao khoảng 1m. Thân rễ phát triển thành củ, phát triển ngầm dưới đất. Lá mọc so le, hình mũi mác thuôn dài, có gân giữa, khi vò lá có mùi thơm. Không chỉ là một gia vị quen thuộc, gừng còn được sử dụng làm gia vị, thuốc',12000,'Kg','gung.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Hành tím',N'Hành khô hay còn gọi là củ hành tím, có lớp vỏ màu vàng nâu hoặc màu tím hồng, tím đậm. Hành tím có mùi hăng, vị hơi cay, trong món ăn có thể ăn sống hoặc nấu chín đều được. Hành tím thường dùng để phi vàng thơm để tăng hương vị cho món ăn, một vài món ăn Việt có sử dụng hành tím phi như: bún riêu, xôi mặn, hủ tiếu, bún mọc,...',45000,'Kg','hanhtim.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Hành lá',N'Hành lá hay còn gọi là hành xanh, hành non, có thân dài hình ống màu xanh, ruột rỗng. Chúng có thể ăn sống hoặc nấu chín như một loại rau hay gia vị giúp làm tăng hương vị cho món ăn',20000,'Bó','hanhla.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Mồng tơi',N'Đây là một loại thực vật thân leo, có hoa, thân mọng nước, bên ngoài vỏ màu xanh thẫm hoặc tía, trong thân chứa nhiều chất nhớt, lá mồng tơi màu xanh, dày. Hoa mọc xen ở các kẽ lá, có màu trắng hoặc tím đỏ, quả mồng tơi hình cầu, mọng nước, rễ chùm và ăn sâu vào lòng đất',20000,'Bó','mongtoi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Ngò gai',N'Ngò gai còn được gọi với một số tên khác như: mùi tàu, mùi gai, xương sông hay ngò tây (theo tiếng miền Nam). Loài cây này thuộc họ hoa Tán và có tên khoa học là Eryngium foetidum và nguồn gốc từ Châu Mỹ. Là một cây có chiều cao thấp, chia cành ở ngọn và hoa quả mọc ở cành. Lá ngò gai mọc tại gốc và xòe ra, ở viền ngoài có các răng cưa nhỏ',10000,'Bó','ngogai.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Ngò rí',N'Ngò rí không chỉ là một loại rau giúp tạo ra hương vị thơm ngon hấp dẫn cho món ăn mà còn có nhiều công dụng tuyệt vời cho sức khỏe. Thường xuyên ăn thực phẩm này giúp bảo vệ tim mạch, hạ huyết áp, làm giảm đường huyết, giúp xương khớp chắc khỏe',5000,'Bó','ngori.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Rau lang',N'Rau lang là một bộ phận của cây khoai lang (tên gọi khoa học là Ipomoea batatas), thuộc loại cây thân thảo dây leo. Do đó, rau lang cũng được gọi là rau khoai lang và được biết đến với nhiều tên gọi trong Y học cổ truyền như phiên chử, cam thử,… Rau lang gồm có phần lá và phần ngọn non, thường được người ta hái để sử dụng',15000,'Bó','raulang.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Rau má',N'Rau má thuộc loại cây thân thảo, có nguồn gốc từ các đảo Thái Bình Dương, nước Úc, New Guinea, Melanesia, Malesia và các nước ở khu vực châu Á. Rau má không chỉ là một loại rau được sử dụng hằng ngày mà còn được dùng phổ biến trong y học cổ truyền Trung Hoa và y học Ayurveda',30000,'Kg','rauma.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Rau muống',N'Rau muống là lựa chọn phù hợp cho những ai muốn giảm cân và lượng cholesterol tự nhiên. Một nghiên cứu được tiến hành trên chuột đã chứng minh rau muống còn giúp hạn chế triglycoside (chỉ số mỡ máu)',15000,'Bó','raumuong.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Rau thơm',N'Rau thơm hay còn được gọi là rau gia vị, là các loại rau thảo mộc có đặc tính thơm, có nhiều chất dinh dưỡng được sử dụng trong ẩm thực và y tế. Rau thơm có thể được sử dụng để ăn sống, thêm vào các món ăn, chế biến thành món gỏi, nộm, gỏi cuốn,… để tăng hương vị cho món ăn',10000,'Bó','rauthom.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Sả',N'Sả ngăn ngừa đầy hơi. Bên cạnh đó sả còn kích thích tiêu hóa, khử hôi miệng và tiêu đờm. Ngoài ra, trà từ cây sả và tinh dầu sả còn có tác dụng hỗ trợ hệ tiêu hóa kém, ăn chậm tiêu, đầy bụng, buồn nôn, nôn mửa, đau dạ dày, co thắt ruột, tiêu chảy hay kích thích trung tiện',12000,'Bó','sa.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Su hào',N'Su hào là một giống cây trồng thân thấp và mập của giống cải bắp dại, chúng được chọn lựa bởi thân mập và có dạng hình cầu, chứa nhiều nước. Su hào được tạo ra từ quá trình chọn lọc nhân tạo để lấy phần tăng trưởng của mô phân sinh ở thân (hay còn gọi là củ)',12000,'Kg','suhao.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Tía tô',N'Tía tô, tử tô, tên khoa học là Perilla frutescens (L.) Briton, thuộc họ hoa môi (Lamaiaceae). Tía tô không chỉ là một loại gia vị cho nhiều món ăn ngon, ngoài ra loại rau này còn có rất nhiều tác dụng cho sức khỏe con người ',15000,'Bó','tiato.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('3',N'Tỏi',N'Tỏi rất giàu chất dinh dưỡng. Theo nghiên cứu, trong 100g tỏi có chứa 6,36g protein, 33g carbohydrates, 150g calo và các dưỡng chất như vitamin nhóm B (B1, B2, B3, B6), sắt, canxi, kali, mangan, magie, photpho,... ',28000,'Kg','toi.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Ba rọi heo',N'Ba rọi heo đạt các tiêu chuẩn về an toàn toàn thực phẩm, đảm bảo chất lượng, độ tươi ngon. Thịt heo mềm, vân nạc, mỡ rõ ràng nên rất phù hợp làm nguyên liệu để nấu thịt kho hột vịt, thịt nướng BBQ',170000,'Kg','baroiheo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Cánh gà',N'Cánh gà nhập khẩu tươi ngon, thịt chắc, nhiều dinh dưỡng thường dùng để chiên với nước mắm hoặc hấp hành. Cánh gà nhập khẩu đông lạnh với phương pháp cấp đông hiện đại, giúp lưu giữ hương vị tự nhiên, mang đến những món ăn ngon cho gia đình',83000,'Kg','canhga.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Chân gà',N'Chân gà được đóng gói và bảo quản theo những tiêu chuẩn nghiêm ngặt về vệ sinh và an toàn thực phẩm, đảm bảo về chất lượng, độ tươi và ngon của thực phẩm, xuất xứ rõ ràng. Chân gà sạch sẽ, có độ giòn và sựt sựt của da, thích hợp để chế biến món chân gà hấp hành, chân gà xào sa tế',30000,'Kg','changa.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Đùi gà',N'Đùi gà góc tư có kích thước to, rất chắc thịt, thơm ngon, thích hợp dùng để chế biến thành nhiều món ăn ngon miệng. Phần thịt gà này chứa những chất dinh dưỡng giúp cơ thể dễ hấp thụ và tiêu hóa. Đùi gà góc tư nhập khẩu đông lạnh từ Mỹ với phương pháp làm đông lạnh cấp tốc từ thịt gà tươi trong thời gian nhanh nhất, giúp các dinh dưỡng thất thoát sẽ ít hơn, chất lượng thịt không kém xa thịt gà',30000,'Kg','duiga.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Đuôi bò',N'Đuôi bò là thực phẩm giàu chất dinh dưỡng có thể chế biến thành nhiều món ăn với hương vị dai giòn, sần sật thơm ngon',105000,'Kg','duoibo.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Đuôi heo',N'Đuôi heo là nguyên liệu khá quen thuộc và có thể chế biến được nhiều món ăn ngon như: món hầm, món kho, món nướng,... ',90000,'Kg','duoiheo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Gà nguyên con',N'Thịt gà nguyên con được lấy từ Gà chạy bộ nuôi thả tự nhiên, tươi ngon, gà được thả tự nhiên tại đồi Ba Vì, thoáng mát, mọi khâu từ tuyển chọn nguyên liệu tới chế biến, đóng bao bì đều diễn ra khép kín dưới sự giám sát và kiểm tra nghiêm ngặt theo tiêu chuẩn GCN (Geen – Clear – Nutrition)',179000,'Kg','ganguyencon.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Lưỡi heo',N'Lưỡi heo là bộ phận tinh túy nhất trong nội tạng của loài vật này, lưỡi heo có thể chế biến thành nhiều món ăn ngon',79000,'Kg','luoiheo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Lưỡi bò',N'Là phần ngon nhất của con bò bởi khi ăn nó giòn giòn sực sực.  Nhưng lưỡi bò rất hiếm, bởi 1 con bò chỉ có 1 cái lưỡi bò. 1 cái khoảng 1 kg, Chính vì thế nó luôn là mặt hàng hot và khan hàng. Lưỡi bò được dùng chế biến các món như gỏi, luộc, lẩu',108000,'Kg','luoibo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Nạc vai bò',N'Với thịt lõi nạc vai bò Mỹ cao cấp, bạn có thể đổi vị với món nướng bỏ lò, áp chảo lạ miệng. Tại sao nên chọn thịt bò Mỹ thay cho thịt bò Việt? Bởi từ rất lâu thương hiệu thịt bò Mỹ đã rất nổi tiếng trên thế giới bởi chất lượng thịt ngon, hương vị hảo hạng. Quan trọng nhất mà bạn chỉ có thể tìm thấy ở thịt bò Mỹ là hương vị mới lạ của nó mang lại, cùng là thịt bò nhưng lại mềm hơn, thơm ngon hơn với độ sạch và chất lượng cao tuyệt đối',160000,'Kg','nacvaibo.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Sườn heo',N'Sườn non heo của thương hiệu CP được đóng gói và bảo quản theo những tiêu chuẩn nghiêm ngặt về vệ sinh và an toàn thực phẩm, đảm bảo về chất lượng, độ tươi và ngon của thực phẩm, xuất xứ rõ ràng. Sườn mềm, thơm, ngọt thịt nên thường dùng để làm sườn non ram mặn hoặc hầm canh với rau củ',88000,'Kg','suonheo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Tai heo',N'Tai heo thường được chế biến làm nộm, luộc bó giò rất ngon. Trước khi chết biến các món này bạn cần làm sạch tai trước hay nói cách khác bạn cần sơ chế tai heo thật sạch',65000,'Kg','taiheo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Thịt bò lưng',N'Đây là phần thịt nhằm trên sườn của Bò, sở dĩ nó gọi là Eyes vì nó có 2 mắt mỡ xen giữa cây thăn. Thịt thăn lưng có đặc điểm rất chắc vì là phần bù cơ giúp cho bò vận động phần lưng, mỡ xen giữa phần thịt thăn làm cho nó vô cùng thích hợp với món Steak, chưa bao giờ làm món Steak lại đậm đà, dễ dàng đến vậy với thăn lưng',375000,'Kg','thitbolung.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Thịt bò vụn',N'Thịt nạc vụn là phần thịt còn sót lại sau khi chia cắt con bò. Phần thịt này bao gồm nạc, có xen lẫn cả gân và mỡ',100000,'Kg','thitbovun.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Ức gà',N'Ức gà được xác định là phần thịt màu trắng nằm phía trước và xung quanh ngực của con gà, thường có rất nhiều thịt, ít da và ít mỡ. Ức gà là một loại thực phẩm giàu chất dinh dưỡng, chúng rất dễ tìm mua và chế biến thành nhiều món ăn hấp dẫn',75000,'Kg','ucga.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('4',N'Vịt nguyên con',N'Thịt vịt là một trong những thực phẩm có giá trị dinh dưỡng khá cao. Trong 100g thịt vịt có khoảng 25g chất protein (vượt xa nhiều lần so với thịt bò, heo, dê, cá, trứng). Ngoài ra, còn có cả hàm lượng các chất dinh dưỡng như canxi, phốt pho, sắt, vitamin (B1, B2, A, D, E), acide nicotic...',70000,'Kg','vitnguyencon.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Bơ',N'Bơ là loại quả rất bổ dưỡng cho cơ thể, nó chứa nhiều loại chất dinh dưỡng, bao gồm 20 loại vitamin cùng khoáng chất như: vitamin C, E, K và B6,... có lợi cho sức khỏe. Bơ cung cấp dồi dào các chất magiê, kali, beta-carotene và a xít béo omega-3, là tác nhân tuyệt vời trong việc ngăn ngừa và kiểm soát bệnh tim cũng như duy trì tóc, da và móng khỏe mạnh',105000,'Kg','bo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Bưởi',N'Bưởi có rất nhiều giống khác nhau trên thế giới. Đặc điểm của quả bưởi khi chín là quả thường sẽ có màu xanh lục nhạt cho tới vàng, hình cầu, vỏ dày và mọng nước, màu sắc tùy theo giống, tép xốp, có vị ngọt hoặc chua ngọt tùy loại. Bưởi sẽ có nhiều kích thước tùy giống',70000,'Kg','buoi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Cam',N'Cam nhập khẩu 100% từ Úc (giấy chứng nhận nguồn gốc xuất xứ). Đạt tiêu chuẩn xuất khẩu toàn cầu. Bảo quản tươi ngon đến tận tay khách hàng. Trái to tròn, màu vàng tươi, mùi thơm thanh mát. Múi cam to, tép mọng nước, vị chua dịu, thích hợp để vắt nước',65000,'Kg','cam.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Cherry',N'Cherry đỏ Mỹ được canh tác chủ yếu ở các vùng Bakerfield, Arvin, Lodi, Stockton và Linden nơi khí hậu ấm áp, khô nóng, thích hợp để cây cherry phát triển. Quả cherry ở đây được tắm no nắng nên ngọt đậm đà, hương quyến rũ',650000,'Kg','cherry.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Chôm chôm',N'Vị ngọt thanh, hạt nhỏ, vỏ mỏng, là một trong những loại trái cây nhiệt đới đặc trưng của ngày hè, chôm chôm của bách hóa xanh được nuôi trồng theo những tiêu chuẩn an toàn và chất lượng. Có thể sử dụng là món tráng miệng sau mỗi bữa ăn hoặc làm trái cây dầm',35000,'Kg','chomchom.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Chuối',N'Chuối được nhiều khách hàng ưa chuộng. Chuối chứa nhiều chất dinh dưỡng như kali, chất xơ, vitamin,… Nên chuối có tác dụng tốt cho sức khoẻ như hỗ trợ giảm cân, hỗ trợ sức khoẻ tim mạch, cải thiện sức khoẻ của thận',20000,'Kg','chuoi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Cóc',N'Theo Đông y, công dụng của quả cóc là thanh nhiệt, giải độc, giải khát, kiện tỳ vị. Quả cóc chứa nhiều acid ascorbic, trong 100g thịt cóc có tới 42g acid ascorbic có tác dụng tăng sức đề kháng cho những người bị cảm cúm. Để hiệu quả, dân gian có cách dùng cóc chấm muối nhai thật kỹ và nuốt từ từ giúp giảm ngay chứng đau họng rất tốt',40000,'Kg','coc.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Dưa hấu',N'Dưa hấu có tên khoa học là Citrullus lanatus, là một loại thực vật thuộc họ bầu bí, vỏ cứng, chứa nhiều nước, có nguồn gốc từ miền nam Châu Phi. Dưa hấu được được nhiều người ưa chuộng bởi tính ngọt mát và nhiều nước, đồng thời còn giúp cung cấp nhiều vitamin và các nguyên tố vi lượng cho cơ thể',15000,'Kg','duahau.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Đu đủ',N'Đu đủ ruột đỏ là một trong những loại trái cây đặc sản của miền Tây, có nguồn gốc từ Đài Loan. Dáng thuôn dài hoặc hình trứng, hình cầu tùy thuộc vào loại hoa thụ phấn. Thịt trái màu đỏ cam hơi ngả vàng, mềm mịn, trái càng già thì thịt quả càng mềm, hột nhỏ màu đen, hương thơm nhẹ đặc trưng và vị ngọt thanh, hậu ngọt dịu',25000,'Kg','dudu.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Khế',N'Trái khế có vị chua chua, ngọt ngọt rất độc đáo và hấp dẫn nên được nhiều người yêu thích. Khế có màu xanh hoặc màu vàng và có hai loại là khế ngọt và khế chua. Khế ngọt khi chín cũng có màu xanh đặc trưng và mọng nước. Khế chua khi chín thường có màu vàng',20000,'Kg','khe.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Kiwi',N'Loại trái cây có vỏ màu nâu vàng, trơn nhẵn, không có lông xù xì như kiwi xanh, thịt quả có màu xanh tươi mát nhìn rất đẹp mắt và hấp dẫn, ăn vào có vị ngọt mát rất đặc trưng. Chứa hàm lượng vitamin C giúp tăng cường đề kháng cho cơ thể khỏe mạnh',140000,'Kg','kiwi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Lựu đỏ',N'Lựu hay thạch lựu có tên khoa học là Punica granatum L., họ tử vi (Lythraceae). Lựu là loại trái cây quen thuộc vào mùa thu đông. Không chỉ có màu đỏ mọng lấp lánh hấp dẫn, vị chua ngọt ngon miệng',60000,'Kg','luudo.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Mãng cầu',N'Loại trái cây nhiệt đới có nguồn gốc từ châu Mỹ chứa nhiều thành phần dinh dưỡng như: vitamin A, vitamin C, kali, magie nên rất tốt cho sức khoẻ đôi mắt, cải thiện hệ tiêu hoá, sức khoẻ tim mạch và phụ nữ mang thai',65000,'Kg','mangcau.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Măng cụt',N'Măng cụt với hương vị chua chua ngọt ngọt, thanh mát đầy lôi cuốn và kích thích là loại trái cây không thể bỏ qua trong mùa hè này. Không chỉ mang đến nhiều công dụng cho sức khoẻ mà còn là "thần dược" cho nhan sắc của phụ nữ. Sản phẩm thích hợp để ăn trực tiếp, giải khát cho ngày nóng nực',80000,'Kg','mangcut.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Me',N'Trái me thường có màu xanh khi chưa trưởng thành. Khi trưởng thành, trái me trở nên béo hơn và màu sắc thay đổi sang màu nâu cát. Thịt của quả khá khô, thịt me có màu nâu sẫm, bên trong là những hạt màu đen sáng bóng. Thịt me có vị rất chua khi nó còn xanh, nhưng khi nó chín thịt me khá ngọt ngào',50000,'Kg','me.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Mít Thái',N'Mít có vị ngọt ngào và hương rất nồng, khá lành tính, đây là thực phẩm cung cấp lượng calo vừa phải nhưng chứa nhiều chất xơ, các loại vitamin, khoáng chất và một số chất chống oxy hóa có lợi khác',30000,'Kg','mit.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Nhãn Ido',N'Quả nhãn có tên khoa học là Dimocarpus longan, còn được gọi là long nhãn vì có hạt màu đen như con ngươi. Nhãn thuộc họ Bồ hòn và có nguồn gốc ở khu vực miền nam của Trung Quốc. Đây là một loại trái cây nhiệt đới và được trồng nhiều ở các nước như Việt Nam, Thái Lan, Ấn Độ, Indonesia và miền nam Trung Hoa',30000,'Kg','nhan.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Nho',N'Nho là loại quả mọng lấy từ cây nho, một loại cây thân leo thuộc chi Nho (Vitis). Quả nho kết thành chùm từ 6 đến 300 quả và có nhiều màu như đen, lam, vàng, lục, đỏ tía, trắng. Bạn đầu nho là loại quả dại, sau đó người ta bắt đầu trồng và thuần hóa nho bắt đầu từ 6.000 - 8.000 năm trước ở Cận Đông',80000,'Kg','nho.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Ổi',N'Ổi chứa hàm lượng cao chất lycopene và chất chống ôxy hóa có tác dụng chống lại bệnh ung thư, đặc biệt là bệnh ung thư tuyến tiền liệt ung thư vú. Bên cạnh đó, Lycopene còn có tác dụng chống lại sự ảnh hưởng của các gốc tự do, giúp cho cơ thể chúng ta khỏe mạnh',35000,'Kg','oi.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Sầu riêng',N'Quả sầu riêng có dạng bầu dục, phần đáy hẹp, vỏ quả mỏng có màu vàng xanh. Cơm sầu riêng Ri 6 có màu vàng rộm đặc trưng, mùi thơm rất nồng, đậm. Phần cơm khá dày, hạt lại lép, vị béo vừa phải',90000,'Kg','saurieng.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Táo',N'Táo được biết đến như một loại trái cây có lợi cho sắc đẹp và có tác dụng giảm cân, ngăn ngừa bệnh tim mạch. Với lượng dưỡng chất dồi dào, vị giòn ngọt, thanh mát, trái nhỏ. Là trái cây nhập khẩu chất lượng an toàn, vừa tiết kiệm về giá, lại vừa vặn cho một lần ăn mà không gây ngán, không phải dự trữ lại',50000,'Kg','tao.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Thanh long',N'Thanh long đỏ có đặc tính hoàn toàn khác so với loại thanh long trắng. Thành phần dinh dưỡng có trong thanh long ruột đỏ được cho là gấp đôi so với thanh long ruột trắng. Đây là một trong những loại trái cây có thành phần dinh dưỡng phù hợp nhất cho việc giữ gìn dáng vóc và sắc đẹp của phụ nữ',12000,'Kg','thanhlong.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Thơm',N'Quả dứa hay còn gọi là trái thơm, khóm… có nhiều loại khác nhau. Quả dứa thực ra là trục của bông hoa và các lá bắc mọng nước tụ hợp lại. Còn trái thật là các “mắt thơm”. Trong 100g quả dứa, phần ăn được cho 25kcal, 0,03mg caroten, 0,08mg vitamin B1, 0,02mg vitamin B2, 16mg vitamin C (thơm tây). Các chất khoáng là 16mg Ca, 11mg phospho, 0,3mg Fe, 0,07mg Cu, 0,4g protein, 0,2g lipid, 13,7g hydrat cacbon, 85,3g nước, 0,4g xơ',20000,'Kg','thom.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Vải',N'Vải được biết đến với hương vị ngọt ngào, vải thường được ăn tươi và đôi khi được sử dụng trong kem hoặc chế biến thành nước trái cây, rượu vang, sherbert và thạch. Vải có chứa một số khoáng chất, vitamin và chất chống oxy hóa lành mạnh, chẳng hạn như kali, đồng, vitamin C, epicatechin và rutin. Những chất này có thể giúp bảo vệ chống lại bệnh tim, ung thư và tiểu đường',65000,'Kg','vai.jpg');
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Vú sữa',N'Là một trong những loại trái cây đặc sản của Việt Nam. Vú sữa bơ hồng căng mọng có vị ngọt hương thơm bơ sữa hấp dẫn, quyến rũ. Đặc biệt trong cú sữa có chứa các dưỡng chất như canxi, phốt pho, sắt và magiê rất tốt cho sức khỏe phụ nữa mang thai và thai nhi. Đây là loại quả có kích thước to bằng bằng khoảng một nắm tay, có vỏ màu xanh, khi chín lớp vỏ sẽ chuyển sang màu hồng nhạt, bóng láng. Phần thịt có màu sữa trắng, vị ngọt thanh, thơm mùi bơ sữa',45000,'Kg','vusua.jpg');
-
-INSERT INTO `Products` (CategoryId,Name,Description,Price,Unit,Image) VALUES ('5',N'Xoài cát',N'Xoài có chứa phenol (những hợp chất hữu cơ mà phân tử của chúng có nhóm hidroxyl liên kết trực tiếp với nguyên tử cacbon của vòng benzene), chẳng hạn như quercetin, isoquercitrin, astragalin, fisetin, axít galic, methylgallat và enzim có khả năng ngăn ngừa bệnh ung thư. Một dĩa xoài có thể cung cấp khoảng 25 % lượng vitamin A cần thiết hằng ngày cho cơ thể',25000,'Kg','xoai.jpg');
-
-INSERT INTO `Cart` (ProductId,Quantity) VALUES ('1',1);
-INSERT INTO `Cart` (ProductId,Quantity) VALUES ('15',1);
-INSERT INTO `Cart` (ProductId,Quantity) VALUES ('33',1);
-INSERT INTO `Cart` (ProductId,Quantity) VALUES ('52',1);
-INSERT INTO `Cart` (ProductId,Quantity) VALUES ('100',1);
 
 
-INSERT INTO `orders` (UserID,CartID,Date) VALUES ('1','2','2021-09-29');
-INSERT INTO `orders` (UserID,CartID,Date) VALUES ('2','4','2021-09-28');
 
-SELECT * FROM Users;
 
-SELECT * FROM Category;
 
-SELECT * FROM Products;
 
-truncate table products;
 
-SELECT * FROM Cart;
-
-SELECT * FROM orders;
 
