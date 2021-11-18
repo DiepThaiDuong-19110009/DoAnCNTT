@@ -1,0 +1,131 @@
+create table Category(
+	categoryId Serial primary key,
+	name varchar(255) not null
+);
+
+create table Product(
+	productId Serial,
+  	categoryId int,
+  	name varchar(450) not null,
+  	price bigint not null,
+ 	image varchar(450) not null,
+  	PRIMARY KEY (productId),
+  	FOREIGN KEY(categoryId) references Category(CategoryId)
+);
+
+create table Users(
+	id Serial,
+	username varchar(50) unique not null,
+	password varchar(36) not null,
+	email varchar(50),
+	role int,
+	primary key(id)
+);
+
+create table Cart(
+	cartId Serial primary key,
+	userId int references Users(id) not null ,
+	buyDate date
+	info varchar(255)
+);
+
+create table CartItem(
+	id Serial primary key,
+	quantity int,
+	productId int references Product(productid) not null,
+	cartId int references Cart(cartid) not null
+);
+
+
+INSERT INTO Category (name) VALUES ('Cá sông'),('Hải sản'),('Rau củ'),('Thịt'),('Trái cây');
+
+select * from category
+
+delete from product
+
+INSERT INTO Product(categoryid,name,price,image) VALUES 
+(1,'Cá bông lau',250000,'cabonglau.jpg'),
+(2,'Bạch tuộc',180000,'bachtuoc.jpg'),
+(3,'Bắp cải mini',400000,'bapcaimini.jpg'),
+(4,'Ba rọi',125000,'baroiheo.jpg'),
+(5,'Bơ',75000,'bo.jpg'),
+(1,'Cá chạch',100000,'cachach.jpg'),
+(2,'Cá mú',350000,'camu.jpg'),
+(3,'Bông cải xanh',50000,'bongcaixanh.jpg'),
+(4,'Cánh gà',65000,'canhga.jpg'),
+(5,'Bưởi',70000,'buoi.jpg'),
+
+(1,'Cá chép',45000,'cachep.jpg'),
+(1,'Cá chim trắng',60000,'cachimtrang.jpg'),
+(1,'Cá lóc',120000,'caloc.jpg'),
+(1,'Cá mè vinh',50000,'camevinh.jpg'),
+(1,'Cá rô phi',35000,'carophi.jpg'),
+(1,'Cá thác lác',120000,'cathaclac.jpg'),
+(1,'Cá trê','45000','catre.jpg'),
+(1,'Tôm càng xanh','250000','tomcangxanh.jpg'),
+
+(2,'Cá nục',65000,'canuc.jpg'),
+(2,'Cá tầm',300000,'catam.jpg'),
+(2,'Cá thu',80000,'cathu.jpg'),
+(2,'Mực nang',160000,'mucnang.jpg'),
+(2,'Ngao trắng',70000,'ngaotrang.jpg'),
+(2,'Sò lông',65000,'solong.jpg'),
+(2,'Tôm hùm bông',2400000,'tomhumbong.jpg'),
+(2,'Tôm hùm xanh',700000,'tomhumxanh.jpg'),
+
+(3,'Cà chua',15000,'cachua.jpg'),
+(3,'Cải thảo',25000,'caithao.jpg'),
+(3,'Cải thìa',20000,'caithia.jpg'),
+(3,'Cải xanh',15000,'caixanh.jpg'),
+(3,'Cà rốt',15000,'carot.jpg'),
+(3,'Củ cải trắng',10000,'cucaitrang.jpg'),
+(3,'Đậu cove',35000,'daucove.jpg'),
+(3,'Hành tím' ,45000,'hanhtim.jpg'),
+(3,'Mồng tơi',10000,'mongtoi.jpg'),
+(3,'Rau lang',12000,'raulang.jpg'),
+(3,'Rau má',15000,'rauma.jpg'),
+(3,'Rau muống',12000,'raumuong.jpg'),
+
+(4,'Đùi gà',35000,'duiga.jpg'),
+(4,'Gà nguyên con',90000,'ganguyencon.jpg'),
+(4,'Nạc vai bò',150000,'nacvaibo.jpg'),
+(4,'Sườn heo',120000,'suonheo.jpg'),
+(4,'Thịt bò lưng',200000,'thitbolung.jpg'),
+(4,'Thịt bò vụn',100000,'thitbovun.jpg'),
+(4,'Ức gà',45000,'ucga.jpg'),
+(4,'Vịt nguyên con',120000,'vitnguyencon.jpg'),
+
+(5,'Cam',35000,'cam.jpg'),
+(5,'Cherry',450000,'cherry.jpg'),
+(5,'Chôm chôm',15000,'chomchom.jpg'),
+(5,'Chuối',12000,'chuoi.jpg'),
+(5,'Dưa hấu',15000,'duahau.jpg'),
+(5,'Đu đủ',20000,'dudu.jpg'),
+(5,'Lựu đỏ',60000,'luudo.jpg'),
+(5,'Mãng cầu',50000,'mangcau.jpg'),
+(5,'Măng cụt',75000,'mangcut.jpg'),
+(5,'Nho',60000,'nho.jpg'),
+(5,'Ổi',15000,'oi.jpg'),
+(5,'Sầu riêng',80000,'saurieng.jpg'),
+(5,'Táo',45000,'tao.jpg'),
+(5,'Thanh long',10000,'thanhlong.jpg'),
+(5,'Thơm',12000,'thom.jpg'),
+(5,'Vải thiều',80000,'vaithieu.jpg'),
+(5,'Vú sữa',45000,'vusua.jpg'),
+(5,'Xoài',16000,'xoai.jpg');
+
+select * from product
+
+
+
+
+
+
+
+
+
+
+
+
+
+
