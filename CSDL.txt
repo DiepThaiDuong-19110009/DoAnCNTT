@@ -39,10 +39,6 @@ create table CartItem(
 
 INSERT INTO Category (name) VALUES ('Cá sông'),('Hải sản'),('Rau củ'),('Thịt'),('Trái cây');
 
-select * from category
-
-delete from product
-
 INSERT INTO Product(categoryid,name,price,image) VALUES 
 (1,'Cá bông lau',250000,'cabonglau.jpg'),
 (2,'Bạch tuộc',180000,'bachtuoc.jpg'),
@@ -114,7 +110,6 @@ INSERT INTO Product(categoryid,name,price,image) VALUES
 (5,'Vú sữa',45000,'vusua.jpg'),
 (5,'Xoài',16000,'xoai.jpg');
 
-select * from product
 
 
 
